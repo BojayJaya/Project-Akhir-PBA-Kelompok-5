@@ -1,13 +1,13 @@
 from streamlit_option_menu import option_menu
 import streamlit as st
 import pandas as pd 
-import numpy as np
+# import numpy as np
 import regex as re
 import json
 import nltk
 nltk.download('stopwords')
 nltk.download('punkt')
-from nltk.tokenize import sent_tokenize, word_tokenize
+# from nltk.tokenize import sent_tokenize, word_tokenize
 from nltk.corpus import stopwords
 from Sastrawi.Stemmer.StemmerFactory import StemmerFactory
 from Sastrawi.StopWordRemover.StopWordRemoverFactory import StopWordRemoverFactory
@@ -32,7 +32,7 @@ st.set_page_config(
     }
 )
 st.write("""
-<center><h2 style = "text-align: justify;">Aplikasi Analisis Sentimen Wisata Bukit Jaddih Menggunakan Metode Naive Bayes melalui Ulasan Google Maps</h2></center>
+<center><h2 style = "text-align: justify;">ANALISIS SENTIMEN PADA WISATA DIENG DENGAN ALGORITMA K-NEAREST NEIGHBOR (K-NN)</h2></center>
 """,unsafe_allow_html=True)
 
 with st.container():
@@ -56,7 +56,7 @@ with st.container():
 
     if selected == "Home":
         st.write("""<h3 style = "text-align: center;">
-        <img src="https://cdn2.tstatic.net/travel/foto/bank/images/bukit-jaddih-bangkalan-madura.jpg" width="500" height="300">
+        <img src="https://tse2.mm.bing.net/th?id=OIP.STTKkkt17TKUvsAE4wKHCwHaED&pid=Api&P=0&h=180" width="500" height="300">
         </h3>""",unsafe_allow_html=True)
         # st.write("""
         # Anemia adalah suatu kondisi di mana Anda kekurangan sel darah merah yang sehat untuk membawa oksigen yang cukup ke jaringan tubuh Anda. Penderita anemia, juga disebut hemoglobin rendah, bisa membuat Anda merasa lelah dan lemah.
@@ -78,38 +78,31 @@ with st.container():
         </ol> 
         """,unsafe_allow_html=True)
         st.write("#### Dataset")
-        df = pd.read_csv("ulasan_bj_pn.csv")
-        df = df.drop(columns=['nama','sentiment','score'])
+        df = pd.read_csv("hasil_preprocessing.csv")
+        # df = df.drop(columns=['nama','sentiment','score'])
         st.write(df)
     elif selected == "Implementation":
         #Getting input from user
-        word = st.text_area('Masukkan kata yang akan di analisa :')
+        iu = st.text_area('Masukkan kata yang akan di analisa :')
 
         submit = st.button("submit")
 
         if submit:
-            def prep_input_data(word, slang_dict):
-                #Lowercase data
-                lower_case_isi = word.lower()
+            def prep_input_data(iu):
+                ulasan_case_folding = iu.lower()
 
-                #Cleansing dataset
-                clean_symbols = re.sub("[^a-zA-Zï ]+"," ", lower_case_isi)
-
-                #Slang word removing
-                def replace_slang_words(text):
-                    words = nltk.word_tokenize(text.lower())
-                    words_filtered = [word for word in words if word not in stopwords.words('indonesian')]
-                    for i in range(len(words_filtered)):
-                        if words_filtered[i] in slang_dict:
-                            words_filtered[i] = slang_dict[words_filtered[i]]
-                    return ' '.join(words_filtered)
-                slang = replace_slang_words(clean_symbols)
-
+                #Cleansing
+                clean_tag  = re.sub("@[A-Za-z0-9_]+","", ulasan_case_folding)
+                clean_hashtag = re.sub("#[A-Za-z0-9_]+","", clean_tag)
+                clean_https = re.sub(r'http\S+', '', clean_hashtag)
+                clean_symbols = re.sub("[^a-zA-Z ]+"," ", clean_https)
+                
                 #Inisialisai fungsi tokenisasi dan stopword
                 # stop_factory = StopWordRemoverFactory()
                 tokenizer = RegexpTokenizer(r'dataran\s+tinggi|jawa\s+tengah|[\w\']+')
-                tokens = tokenizer.tokenize(slang)
+                tokens = tokenizer.tokenize(clean_symbols)
 
+                #Stop Words
                 stop_factory = StopWordRemoverFactory()
                 more_stopword = ["yg", "dg", "rt", "dgn", "ny", "d", 'klo', 'kalo', 'amp', 'biar', 'bikin', 'bilang',
                                 'gak', 'ga', 'krn', 'nya', 'nih', 'sih', 'si', 'tau', 'tdk', 'tuh', 'utk', 'ya',
@@ -123,63 +116,71 @@ with st.container():
                 #list to string
                 gabung =' '.join([str(elem) for elem in removed])
 
-                #Steaming Data
+                #Steaming
                 factory = StemmerFactory()
                 stemmer = factory.create_stemmer()
                 stem = stemmer.stem(gabung)
-                return lower_case_isi,clean_symbols,slang,gabung,stem
-            
-            #Kamus
-            with open('combined_slang_words.txt') as f:
-                data = f.read()
-            slang_dict = json.loads(data)
+                return(ulasan_case_folding,clean_symbols,tokens,gabung,stem)
 
             #Dataset
-            Data_ulasan = pd.read_csv("dataprep.csv")
-            ulasan_dataset = Data_ulasan['ulasan']
+            Data_ulasan = pd.read_csv("https://raw.githubusercontent.com/BojayJaya/PBA-Kelompok-5/main/hasil_preprocessing.csv")
+            ulasan_dataset = Data_ulasan['ulasan_hasil_preprocessing']
             sentimen = Data_ulasan['label']
 
             # TfidfVectorizer 
-            tfidfvectorizer = TfidfVectorizer(analyzer='word')
-            tfidf_wm = tfidfvectorizer.fit_transform(ulasan_dataset)
-            tfidf_tokens = tfidfvectorizer.get_feature_names_out()
-            df_tfidfvect = pd.DataFrame(data = tfidf_wm.toarray(),columns = tfidf_tokens)
-            
-            #Train test split
-            training, test = train_test_split(tfidf_wm,test_size=0.2, random_state=1)#Nilai X training dan Nilai X testing
-            training_label, test_label = train_test_split(sentimen, test_size=0.2, random_state=1)#Nilai Y training dan Nilai Y testing    
-
-            # model
-            with open('modelml.pkl', 'rb') as file:
+            # tfidfvectorizer = TfidfVectorizer(analyzer='iu')
+            # tfidf_wm = tfidfvectorizer.fit_transform(ulasan_dataset)
+            # tfidf_tokens = tfidfvectorizer.get_feature_names_out()
+            # df_tfidfvect = pd.DataFrame(data = tfidf_wm.toarray(),columns = tfidf_tokens)
+            with open('knnk9.pkl', 'rb') as file:
                 loaded_model = pickle.load(file)
-            clf = loaded_model.fit(training,training_label)
-            y_pred=clf.predict(test)
+            
+            with open('tfidf.pkl', 'rb') as file:
+                loaded_data_tfid = pickle.load(file)
+            
+            tfidf_wm = loaded_data_tfid.fit_transform(ulasan_dataset)
+
+            #Train test split
+            training, test, training_label, test_label  = train_test_split(tfidf_wm, sentimen,test_size=0.2, random_state=42)#Nilai X training dan Nilai X testing 80 20
+    #         training, test, training_label, test_label  = train_test_split(tfidf_wm, sentimen,test_size=0.3, random_state=42)#Nilai X training dan Nilai X testing 70 30
+    #         training, test, training_label, test_label  = train_test_split(tfidf_wm, sentimen,test_size=0.4, random_state=42)#Nilai X training dan Nilai X testing 60 40
+            # training_label, test_label = train_test_split(, test_size=0.2, random_state=42)#Nilai Y training dan Nilai Y testing    
+
+            #model
+            clf = loaded_model.fit(training, training_label)
+            y_pred = clf.predict(test)
 
             #Evaluasi
             akurasi = accuracy_score(test_label, y_pred)
+            akurasi_persen = akurasi * 100
 
-            # Inputan 
-            lower_case_isi,clean_symbols,slang,gabung,stem = prep_input_data(word, slang_dict)
-            
-            # #Prediksi
-            v_data = tfidfvectorizer.transform([stem]).toarray()
-            y_preds = clf.predict(v_data)
+            #Inputan 
+            ulasan_case_folding,clean_symbols,tokens,gabung,stem = prep_input_data(iu)
+            st.write('Case Folding')
+            st.write(ulasan_case_folding)
+            st.write('Cleaning Simbol')
+            st.write(clean_symbols)
+            st.write('Token')
+            st.write(tokens)
+            st.write('Stop Removal')
+            st.write(gabung)
+            st.write('Stemming')
+            st.write(stem)
 
-            st.subheader('Preprocessing')
-            st.write(pd.DataFrame([lower_case_isi],columns=["Case Folding"]))
-            st.write(pd.DataFrame([clean_symbols],columns=["Cleansing"]))
-            st.write(pd.DataFrame([slang],columns=["Slang Word Removing"]))
-            st.write(pd.DataFrame([gabung],columns=["Stop Word Removing"]))
-            st.write(pd.DataFrame([stem],columns=["Steaming"]))
+        
+        #Prediksi
+        v_data = loaded_data_tfid.transform([stem]).toarray()
+        y_preds = clf.predict(v_data)
 
-            st.subheader('Akurasi')
-            st.info(akurasi)
+        st.subheader('Akurasi')
+        # st.info(akurasi)
+        st.info(f"{akurasi_persen:.2f}%")
 
-            st.subheader('Prediksi')
-            if y_preds == "positive":
-                st.success('Positive')
-            else:
-                st.error('Negative')
+        st.subheader('Prediksi')
+        if y_preds == "positive":
+            st.success('Positive')
+        else:
+            st.error('Negative')
 
     elif selected == "Tentang Kami":
         st.write("##### Mata Kuliah = Pembelajaran Mesin - B") 
