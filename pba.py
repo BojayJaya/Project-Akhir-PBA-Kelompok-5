@@ -40,7 +40,7 @@ with st.container():
         selected = option_menu(
         st.write("""<h3 style = "text-align: center;"><img src="https://cdn-icons-png.flaticon.com/512/1998/1998664.png" width="120" height="120"></h3>""",unsafe_allow_html=True), 
         ["Home","Dataset", "Penjelasan Preprocessing", "Penjelasan Tf-idf", "Implementation", "Tentang Kami"], 
-            icons=['house', 'bar-chart', 'check2-square', 'person'], menu_icon="cast", default_index=0,
+            icons=['house', 'bar-chart', 'bar-chart', 'bar-chart','check2-square', 'person'], menu_icon="cast", default_index=0,
             styles={
                 "container": {"padding": "0!important", "background-color": "#412a7a"},
                 "icon": {"color": "white", "font-size": "18px"}, 
