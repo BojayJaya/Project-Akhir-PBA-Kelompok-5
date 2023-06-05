@@ -123,7 +123,7 @@ with st.container():
                 return(ulasan_case_folding,clean_symbols,tokens,gabung,stem)
 
             #Dataset
-            Data_ulasan = pd.read_csv("https://raw.githubusercontent.com/BojayJaya/PBA-Kelompok-5/main/hasil_preprocessing.csv")
+            Data_ulasan = pd.read_csv("hasil_preprocessing.csv")
             ulasan_dataset = Data_ulasan['ulasan_hasil_preprocessing']
             sentimen = Data_ulasan['label']
 
@@ -184,7 +184,7 @@ with st.container():
 
     elif selected == "Tentang Kami":
         st.write("##### Mata Kuliah = Pembelajaran Mesin - B") 
-        st.write('##### Kelompok 8')
-        st.write("1. Hambali Fitrianto (200411100074)")
-        st.write("2. Muhammad Hanif Santoso (200411100078)")
-        
+        st.write('##### Kelompok 5')
+        st.write("1. Hambali Fitrianto - 200411100074")
+        st.write("2. Pramudya Dwi Febrianto - 200411100042")
+        st.write("3. Febrian Achmad Syahputra - 200411100106")
