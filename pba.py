@@ -34,13 +34,12 @@ st.set_page_config(
 st.write("""
 <center><h2 style = "text-align: justify;">ANALISIS SENTIMEN PADA WISATA DIENG DENGAN ALGORITMA K-NEAREST NEIGHBOR (K-NN)</h2></center>
 """,unsafe_allow_html=True)
-st.write("### Dosen Pengampu : Dr. FIKA HASTARITA RACHMAN, ST., M.Eng")
 
 with st.container():
     with st.sidebar:
         selected = option_menu(
         st.write("""<h3 style = "text-align: center;"><img src="https://cdn-icons-png.flaticon.com/512/1998/1998664.png" width="120" height="120"></h3>""",unsafe_allow_html=True), 
-        ["Home","Dataset", "Penjelasan Preprocessing", "Penjelasan Tf-idf", "Implementation", "Tentang Kami"], 
+        ["Home","Dataset", "Implementation", "Tentang Kami"], 
             icons=['house', 'bar-chart', 'bar-chart', 'bar-chart','check2-square', 'person'], menu_icon="cast", default_index=0,
             styles={
                 "container": {"padding": "0!important", "background-color": "#412a7a"},
@@ -68,21 +67,17 @@ with st.container():
         st.write(""" <p style = "text-align: justify;">dataset tentang ulasan masyarakat terhadap pariwisata bukit Jaddih dari ulasan google maps. Selanjutnya data ulasan tersebut akan diklasifikasikan ke dalam dua kategori sentimen yaitu negatif dan positif kemudian dilakukan penerapan algoritma Multinomial Naive Bayes untuk mengetahui nilai akurasinya.</p>""",unsafe_allow_html=True)
         st.write("#### Preprocessing Dataset")
         st.write(""" <p style = "text-align: justify;">Preprocessing data merupakan proses dalam mengganti teks tidak teratur supaya teratur yang nantinya dapat membantu pada proses pengolahan data.</p>""",unsafe_allow_html=True)
-        st.write(""" 
-        <ol>
-            <li>Case folding merupakan tahap untuk mengganti keseluruhan kata kapital pada dataset agar berubah menjadi tidak kapital.</li>
-            <li>Cleansing yaitu merupakan proses untuk menghilangkan semua simbol, angka, ataupun emoticon yang terdapat didalam dataset</li>
-            <li>Slangword Removing yaitu satu proses yang dilakukan untuk mendeteksi dan menghilangkan kata-kata yang tidak baku di dalam dataset</li>
-            <li>Tokenization yaitu proses untuk memisahkan suatu kalimat menjadi beberapa kata untuk memudahkan proses stopword.</li>
-            <li>Stopword Removing yaitu proses untuk menghilangkan semua kata hubung yang terdapat pada dataset.</li>
-            <li>Steaming yaitu proses yang digunakan untuk menghilangkan semua kata imbuhan dan merubahnya menjadi kata dasar.</li>
-        </ol> 
-        """,unsafe_allow_html=True)
-        st.write("#### Dataset")
-        df = pd.read_csv("hasil_preprocessing.csv")
-        # df = df.drop(columns=['nama','sentiment','score'])
-        st.write(df)
-    elif selected == "Penjelasan Preprocessing":
+        # st.write(""" 
+        # <ol>
+        #     <li>Case folding merupakan tahap untuk mengganti keseluruhan kata kapital pada dataset agar berubah menjadi tidak kapital.</li>
+        #     <li>Cleansing yaitu merupakan proses untuk menghilangkan semua simbol, angka, ataupun emoticon yang terdapat didalam dataset</li>
+        #     <li>Slangword Removing yaitu satu proses yang dilakukan untuk mendeteksi dan menghilangkan kata-kata yang tidak baku di dalam dataset</li>
+        #     <li>Tokenization yaitu proses untuk memisahkan suatu kalimat menjadi beberapa kata untuk memudahkan proses stopword.</li>
+        #     <li>Stopword Removing yaitu proses untuk menghilangkan semua kata hubung yang terdapat pada dataset.</li>
+        #     <li>Steaming yaitu proses yang digunakan untuk menghilangkan semua kata imbuhan dan merubahnya menjadi kata dasar.</li>
+        # </ol> 
+        # """,unsafe_allow_html=True)
+
         st.write("""###### Penjelasan Prepocessing Data : """)
         st.write("""1. Case Folding :
         
@@ -108,7 +103,6 @@ with st.container():
 
         Stemming dalam pemrosesan bahasa alami (Natural Language Processing/NLP) adalah proses mengubah kata ke dalam bentuk dasarnya atau bentuk kata yang lebih sederhana, yang disebut sebagai “stem”. Stemming bertujuan untuk menghapus infleksi atau imbuhan pada kata sehingga kata-kata yang memiliki akar kata yang sama dapat diidentifikasi sebagai bentuk yang setara.
         """)
-    elif selected == "Penjelasan Tf-idf":
         st.write("""###### Penjelasan Ekstraksi Fitur : """)
         st.write("""TF-IDF :""")
         st.write("""Ditahap akhir dari text preprocessing adalah term-weighting .Term-weighting merupakan proses pemberian bobot term pada dokumen. Pembobotan ini digunakan nantinya oleh algoritma Machine Learning untuk klasifikasi dokumen. Ada beberapa metode yang dapat digunakan, salah satunya adalah TF-IDF (Term Frequency-Inverse Document Frequency).""")
@@ -139,6 +133,11 @@ with st.container():
         st.write("""Dalam perhitungan TF-IDF, TF(term, document) adalah nilai TF untuk term dalam dokumen tertentu, dan IDF(term) adalah nilai IDF untuk term di seluruh koleksi dokumen.""")
         st.write("""Mengubah representasi teks ke dalam vektor
         """)
+        
+        st.write("#### Dataset")
+        df = pd.read_csv("hasil_preprocessing.csv")
+        # df = df.drop(columns=['nama','sentiment','score'])
+        st.write(df)
 
     elif selected == "Implementation":
         #Getting input from user
