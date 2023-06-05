@@ -34,7 +34,6 @@ st.set_page_config(
 st.write("""
 <center><h2 style = "text-align: justify;">ANALISIS SENTIMEN PADA WISATA DIENG DENGAN ALGORITMA K-NEAREST NEIGHBOR (K-NN)</h2></center>
 """,unsafe_allow_html=True)
-st.title("PEMROSESAN BAHASA ALAMI A")
 st.write("### Dosen Pengampu : Dr. FIKA HASTARITA RACHMAN, ST., M.Eng")
 
 with st.container():
@@ -185,6 +184,7 @@ with st.container():
                 st.error('Negative')
 
     elif selected == "Tentang Kami":
+        st.write("##### Mata Kuliah = Pemrosesan Bahasa Alami - A") 
         st.write('##### Kelompok 5')
         st.write("1. Hambali Fitrianto - 200411100074")
         st.write("2. Pramudya Dwi Febrianto - 200411100042")
