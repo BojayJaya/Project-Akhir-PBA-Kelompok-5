@@ -234,7 +234,7 @@ with st.container():
                 st.error('Negative')
 
     elif selected == "Tentang Kami":
-        st.write("##### Mata Kuliah = Pembelajaran Mesin - B") 
+        st.write("##### Mata Kuliah = Pemrosesan Bahasa Alami -A") 
         st.write('##### Kelompok 5')
         st.write("1. Hambali Fitrianto - 200411100074")
         st.write("2. Pramudya Dwi Febrianto - 200411100042")
