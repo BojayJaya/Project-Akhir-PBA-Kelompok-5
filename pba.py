@@ -34,6 +34,8 @@ st.set_page_config(
 st.write("""
 <center><h2 style = "text-align: justify;">ANALISIS SENTIMEN PADA WISATA DIENG DENGAN ALGORITMA K-NEAREST NEIGHBOR (K-NN)</h2></center>
 """,unsafe_allow_html=True)
+st.title("PEMROSESAN BAHASA ALAMI A")
+st.write("### Dosen Pengampu : Dr. FIKA HASTARITA RACHMAN, ST., M.Eng")
 
 with st.container():
     with st.sidebar:
@@ -168,22 +170,21 @@ with st.container():
             st.write(stem)
 
         
-        #Prediksi
-        v_data = loaded_data_tfid.transform([stem]).toarray()
-        y_preds = clf.predict(v_data)
+            #Prediksi
+            v_data = loaded_data_tfid.transform([stem]).toarray()
+            y_preds = clf.predict(v_data)
 
-        st.subheader('Akurasi')
-        # st.info(akurasi)
-        st.info(f"{akurasi_persen:.2f}%")
+            st.subheader('Akurasi')
+            # st.info(akurasi)
+            st.info(f"{akurasi_persen:.2f}%")
 
-        st.subheader('Prediksi')
-        if y_preds == "positive":
-            st.success('Positive')
-        else:
-            st.error('Negative')
+            st.subheader('Prediksi')
+            if y_preds == "positive":
+                st.success('Positive')
+            else:
+                st.error('Negative')
 
     elif selected == "Tentang Kami":
-        st.write("##### Mata Kuliah = Pembelajaran Mesin - B") 
         st.write('##### Kelompok 5')
         st.write("1. Hambali Fitrianto - 200411100074")
         st.write("2. Pramudya Dwi Febrianto - 200411100042")
