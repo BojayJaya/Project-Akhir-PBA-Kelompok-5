@@ -39,7 +39,7 @@ st.write("### Dosen Pengampu : Dr. FIKA HASTARITA RACHMAN, ST., M.Eng",unsafe_al
 with st.container():
     with st.sidebar:
         selected = option_menu(
-        st.write("""<h3 style = "text-align: center;"><img src="https://cdn-icons-png.flaticon.com/512/1998/1998664.png" width="120" height="120"></h3>""",unsafe_allow_html=True), 
+        st.write("""<h3 style = "text-align: center;"><img src="https://w7.pngwing.com/pngs/908/325/png-transparent-brand-logo-circle-number-5-text-number-5.png" width="120" height="120"></h3>""",unsafe_allow_html=True), 
         ["Home","Dataset", "Implementation", "Tentang Kami"], 
             icons=['house', 'bar-chart','check2-square', 'person'], menu_icon="cast", default_index=0,
             styles={
