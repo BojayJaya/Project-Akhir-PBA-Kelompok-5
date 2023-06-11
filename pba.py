@@ -171,7 +171,7 @@ with st.container():
             # tfidf_wm = tfidfvectorizer.fit_transform(ulasan_dataset)
             # tfidf_tokens = tfidfvectorizer.get_feature_names_out()
             # df_tfidfvect = pd.DataFrame(data = tfidf_wm.toarray(),columns = tfidf_tokens)
-            with open('knnk5.pkl', 'rb') as file:
+            with open('knnk7.pkl', 'rb') as file:
                 loaded_model = pickle.load(file)
             
             with open('tfidf.pkl', 'rb') as file:
